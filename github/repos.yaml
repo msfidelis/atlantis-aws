@@ -1,0 +1,20 @@
+repos:
+- id: /.*/
+  workflow: default
+  apply_requirements: [approved,mergeable]
+  allow_custom_workflows: true
+
+workflows:
+  default:
+    plan:
+      steps:
+      - run: /custom-script.sh
+      - run: /custom-script.sh
+      - run: /custom-script.sh
+      - init:
+          extra_args:
+          - "-backend-config=bucket=atlantis-demo-tfstates"
+          - "-backend-config=key=terraform.tfstate"
+          - "-backend-config=region=us-east-1"
+          - "-backend-config=workspace_key_prefix=${BASE_REPO_NAME}/${WORKSPACE}"
+          - "-reconfigure"

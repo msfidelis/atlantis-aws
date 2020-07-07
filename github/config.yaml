@@ -1,0 +1,8 @@
+atlantis-url: "http://atlantis.raj.ninja"
+automerge: true
+data-dir: "/atlantis"
+log-level: "info"
+repo-config: "/repos.yaml"
+repo-whitelist: "github.com/msfidelis/atlantis-*"
+gh-user: "msfidelis"
+gh-token: "fodase"
