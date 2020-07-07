@@ -1,7 +1,8 @@
 repos:
 - id: /.*/
   workflow: default
-  apply_requirements: [approved,mergeable]
+  # apply_requirements: [approved,mergeable]
+  apply_requirements: [ mergeable ]
   allow_custom_workflows: true
 
 workflows:
@@ -9,12 +10,17 @@ workflows:
     plan:
       steps:
       - run: /custom-script.sh
-      - run: /custom-script.sh
-      - run: /custom-script.sh
+      # - run: printenv 
       - init:
           extra_args:
           - "-backend-config=bucket=atlantis-demo-tfstates"
           - "-backend-config=key=terraform.tfstate"
           - "-backend-config=region=us-east-1"
-          - "-backend-config=workspace_key_prefix=${BASE_REPO_NAME}/${WORKSPACE}"
+          - "-backend-config=workspace_key_prefix=$(pwd | cut -d '/' -f 4,5 | sed 's/ /\\ /g' | sed 's/\\ /-/g')"
           - "-reconfigure"
+      - plan: 
+          
+      - run: /custom-script.sh
+    apply:
+      steps:
+      - apply

@@ -1,10 +1,10 @@
 resource "aws_alb_target_group" "tg" {
-    name        = var.project_name
+    name_prefix = substr(var.project_name, 0, 5)
     port        = 4141
     vpc_id      = aws_vpc.main.id
 
     protocol    = "HTTP"
-    target_type = "ip"
+    target_type = "instance"
 
     health_check {
         healthy_threshold   = 3

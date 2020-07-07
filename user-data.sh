@@ -5,15 +5,17 @@ sudo chmod 777 -R /atlantis
 
 sudo yum install docker amazon-efs-utils telnet -y
 
-systemctl enable docker 
+systemctl start docker 
+systemctl enable docker
 
 sudo mount -t efs ${efs}:/ /atlantis
+
+# uid and gid for atlantis user on container
+chown 100:1000 /atlantis
 
 $(aws --region ${region} ecr get-login --no-include-email)
 
 docker run --detach \
-    --log-opt "awslogs-region=${region}" \
-    --log-opt "awslogs-group=/${docker_name}" \
     --name ${docker_name} \
     --network host \
     --restart always \
